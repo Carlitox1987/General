@@ -14,7 +14,26 @@
     <div>
         <br/>
         <input type = "button" id="bt1" onclick = "myfunction()" value = "Cargar"> 
-        <input type = "button" id="bt2" onclick = "limpiar()" value = "Limpiar"> 
+        <input type = "button" id="bt2" onclick = "limpiar()" value = "Limpiar">
+        <form>
+            <p>Seleccione el ordenamiento:</p>
+            <div>
+              <input type="radio" id="sortChoice1"
+               name="sort" value="Nombre">
+              <label for="sortChoice1">Nombre</label>
+          
+              <input type="radio" id="sortChoice2"
+               name="sort" value="Apellido" checked>
+              <label for="sortChoice2">Apellido</label>
+          
+              <input type="radio" id="sortChoice3"
+               name="sort" value="Nota">
+              <label for="sortChoice3">Nota</label>
+            </div>
+            <div>
+                <input type = "button" id="bt3" onclick = "ordenar()" value = "Ordenar">
+            </div>
+          </form>
     </div>
     <ul id="nota_ul">
     </ul> 
