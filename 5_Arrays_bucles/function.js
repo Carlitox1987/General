@@ -12,55 +12,72 @@ function myfunction()
     li.appendChild(document.createTextNode(apellidos+","+nombres+","+nota));
     ul.appendChild(li);
 
-    const lis = document.getElementById('nota_ul').getElementsByTagName('li');
-    
-    let cadena="";
-    // Loop through the NodeList object. 
-    for (let i = 0; i <= lis.length - 1; i++) {
-        cadena=cadena+lis[i].textContent+"\n";
-    }
-  //  alert(cadena);
 }
+////////////////////////////////////////////////////////////////////////////////////////
 function limpiar(){
-    let lis = document.getElementById('nota_ul');
-  //  let cadena=lis.children[1];//obtiene un registro sub i
+    let ul = document.getElementById('nota_ul');
     let i=0;
-   while (lis.firstChild) {
-    lis.removeChild(lis.firstChild);
+   while (ul.firstChild) {
+    ul.removeChild(ul.firstChild);
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
 function ordenar(){
     let personaSplit=[''];
-    let persona = {
-        nombre: '',
-        apellido: '',
-        nota: 0,
-        };
-    let personas=[];
-    const lis = document.getElementById('nota_ul').getElementsByTagName('li');
+    let personas= new Array();
+    const ul_li = document.getElementById('nota_ul').getElementsByTagName('li');
     const psOrden=document.querySelector('input[name="sort"]:checked').value;
-    let orden=1;
     let cantNotas=0;
+    let tam=0;
+    let subtam=0;
 
-    for (let i = 0; i <= lis.length - 1; i++) {
-        personaSplit=lis[i].textContent.split(',');
-        persona.nombre=personaSplit[0];
-        persona.apellido=personaSplit[1];
-        persona.nota=personaSplit[2];
+    for (let i = 0; i <= ul_li.length - 1; i++) {
+        personaSplit=ul_li[i].textContent.split(',');
+        let persona = {
+          nombre: personaSplit[1],
+          apellido: personaSplit[0],
+          nota: parseInt(personaSplit[2]),
+          };
         personas.push(persona);
     }
-    switch (psOrden) {
-        case 'Nombre':
-          orden=0;
-          break;
-        case 'Apellido':
-          orden=1;
-          break;
-        default:
-          orden=2;
+
+      tam=personas.length;
+      subtam=tam;
+      for (i = 1; i < tam; i++) {
+        for (j = 0; j < (subtam - i); j++) {
+          let valor_actual;
+          let valor_sig;
+          switch (psOrden) {
+            case 'Nombre':
+              valor_actual=personas[j].nombre;
+              valor_sig=personas[j+1].nombre;
+              break;
+            case 'Apellido':
+              valor_actual=personas[j].apellido;
+              valor_sig=personas[j+1].apellido;
+              break;
+            default:
+              valor_actual=personas[j].nota;
+              valor_sig=personas[j+1].nota;
+          }
+
+            if (valor_actual > valor_sig) {
+              let aux=personas[j];
+                personas[j] = personas[j + 1];
+                personas[j + 1] = aux;
+            }
+        }
       }
-    cantNotas=personas.length;
+      
+      limpiar();
+      for (let i=0;i<=personas.length-1;i++){
+        let li = document.createElement("li");
+        let ul = document.getElementById("nota_ul");
+        li.appendChild(document.createTextNode(personas[i].apellido+","+personas[i].nombre+","+personas[i].nota));
+        ul.appendChild(li);
+        console.log(personas[i].apellido+","+personas[i].nombre+","+personas[i].nota);
+      }
 
-    alert(cantNotas);
-
+      console.log(personas);
 }
